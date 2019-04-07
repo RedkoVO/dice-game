@@ -10,16 +10,31 @@ import styles from './styles'
 
 const Main = ({
   classes,
-  rangeValue,
+  fieldsState,
   checked,
   handlerRange,
   handleCheckbox,
-  historyGame
+  historyGame,
+  handleChangeRoll,
+  handleChangeAmount,
+  handleRollDirection,
+  rollDirectionMore
 }) => (
   <div className={classes.root}>
     <div className={classes.playArea}>
-      <GameBox rangeValue={rangeValue} handlerRange={handlerRange} />
-      <ButtonsBox checked={checked} handleCheckbox={handleCheckbox} />
+      <GameBox
+        rangeValue={fieldsState.range}
+        handlerRange={handlerRange}
+        handleChangeRoll={handleChangeRoll}
+        handleRollDirection={handleRollDirection}
+        rollDirectionMore={rollDirectionMore}
+      />
+      <ButtonsBox
+        checked={checked}
+        fieldsState={fieldsState}
+        handleCheckbox={handleCheckbox}
+        handleChangeAmount={handleChangeAmount}
+      />
     </div>
     <GameHistory historyGame={historyGame} />
   </div>
@@ -27,11 +42,15 @@ const Main = ({
 
 Main.propTypes = {
   classes: PropTypes.object,
-  rangeValue: PropTypes.array,
+  fieldsState: PropTypes.object,
   handlerRange: PropTypes.func,
   checked: PropTypes.bool,
+  rollDirectionMore: PropTypes.bool,
   handleCheckbox: PropTypes.func,
-  historyGame: PropTypes.array
+  historyGame: PropTypes.array,
+  handleChangeRoll: PropTypes.func,
+  handleChangeAmount: PropTypes.func,
+  handleRollDirection: PropTypes.func
 }
 
 export default withStyles(styles)(Main)

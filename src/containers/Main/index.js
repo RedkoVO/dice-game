@@ -112,14 +112,54 @@ const mockHistory = [
 ]
 
 export default compose(
-  withState('rangeValue', 'setRangeValue', [50]),
   withState('checked', 'setCheckbox', false),
+  withState('rollDirectionMore', 'setRollDirection', false),
+  withState('fieldsState', 'setField', {
+    range: [50],
+    amount: 100.000000001
+  }),
   withHandlers({
-    handlerRange: ({ setRangeValue }) => val => {
-      setRangeValue(val)
-    },
     handleCheckbox: ({ setCheckbox, checked }) => () => {
       setCheckbox(!checked)
+    },
+    handleChangeAmount: ({ fieldsState, setField }) => e => {
+      let fields = Object.assign({}, fieldsState)
+      fields.amount = e.target.value
+
+      setField(fields)
+    },
+    handleRollDirection: ({
+      fieldsState,
+      setField,
+      rollDirectionMore,
+      setRollDirection
+    }) => () => {
+      let fields = Object.assign({}, fieldsState)
+      const roll = 100 - fields.range[0]
+      fields.range = [parseFloat(parseFloat(roll).toFixed(1))]
+
+      console.log('range', fields.range)
+
+      setField(fields)
+      setRollDirection(!rollDirectionMore)
+    },
+
+    handlerRange: ({ fieldsState, setField }) => val => {
+      let fields = Object.assign({}, fieldsState)
+      fields.range = val
+
+      setField(fields)
+    },
+    handleChangeRoll: ({ setField, fieldsState }) => e => {
+      const val = e.target.value
+      let fields = Object.assign({}, fieldsState)
+      fields.range = [parseFloat(parseFloat(val).toFixed(1))]
+
+      if (parseFloat(val) > 0.1 && parseFloat(val) < 100) {
+        setField(fields)
+      } else {
+        return false
+      }
     }
   }),
   withProps(() => ({ historyGame: mockHistory })),

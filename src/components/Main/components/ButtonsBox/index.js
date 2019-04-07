@@ -5,12 +5,26 @@ import withStyles from '@material-ui/core/styles/withStyles'
 
 import styles from './styles'
 
-const ButtonsBox = ({ classes, checked, handleCheckbox }) => (
+const ButtonsBox = ({
+  classes,
+  checked,
+  handleCheckbox,
+  handleChangeAmount,
+  fieldsState
+}) => (
   <div className={classes.root}>
     <div className={classes.header}>
       <div className={classes.amount}>
         <div className={classes.amountTitle}>Bet amount:</div>
-        <div className={classes.amountField}>100.000000001</div>
+        <input
+          id="roll"
+          name="roll"
+          type="number"
+          min="0.1"
+          className={classes.amountField}
+          value={fieldsState.amount}
+          onChange={e => handleChangeAmount(e)}
+        />
       </div>
       <div className={classes.auto}>
         <div>Auto</div>
@@ -74,7 +88,9 @@ const ButtonsBox = ({ classes, checked, handleCheckbox }) => (
 ButtonsBox.propTypes = {
   classes: PropTypes.object,
   checked: PropTypes.bool,
-  handleCheckbox: PropTypes.func
+  handleCheckbox: PropTypes.func,
+  handleChangeAmount: PropTypes.func,
+  fieldsState: PropTypes.object
 }
 
 export default withStyles(styles)(ButtonsBox)

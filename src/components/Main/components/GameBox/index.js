@@ -3,12 +3,21 @@ import PropTypes from 'prop-types'
 import { Range } from 'react-range'
 import withStyles from '@material-ui/core/styles/withStyles'
 
+// import InputField from '../../../App/components/InputField'
+
 import RedCube from './svg/redCube'
 import GreenCube from './svg/greenCube'
 
 import styles from './styles'
 
-const GameBox = ({ classes, rangeValue, handlerRange }) => {
+const GameBox = ({
+  classes,
+  rangeValue,
+  handlerRange,
+  handleChangeRoll,
+  handleRollDirection,
+  rollDirectionMore
+}) => {
   return (
     <div className={classes.root}>
       <div className={classes.result}>
@@ -34,7 +43,7 @@ const GameBox = ({ classes, rangeValue, handlerRange }) => {
 
         <Range
           step={0.1}
-          min={0}
+          min={0.1}
           max={100}
           values={rangeValue}
           onChange={val => handlerRange(val)}
@@ -45,8 +54,9 @@ const GameBox = ({ classes, rangeValue, handlerRange }) => {
                 ...props.style,
                 height: '26px',
                 width: '100%',
-                background:
-                  `linear-gradient(90deg, #C6253A ${rangeValue[0].toFixed(1)}%, #51CB20 0%)`,
+                background: `linear-gradient(90deg, #C6253A ${rangeValue[0].toFixed(
+                  1
+                )}%, #51CB20 0%)`,
                 borderRadius: '10px'
               }}
             >
@@ -69,9 +79,28 @@ const GameBox = ({ classes, rangeValue, handlerRange }) => {
       </div>
 
       <div className={classes.info}>
-        <div>
+        <div className={classes.infoItem}>
           <div className={classes.infoTitle}>Roll under</div>
-          <div className={classes.infoField}>{rangeValue[0].toFixed(1)}</div>
+          <div className={classes.rollDirection}>
+            {rollDirectionMore ? '>' : '<'}
+          </div>
+          <input
+            id="roll"
+            name="roll"
+            type="number"
+            min="0.1"
+            max="100"
+            step="0.1"
+            className={classes.infoField}
+            value={`${rangeValue[0]}`}
+            onChange={e => handleChangeRoll(e)}
+          />
+          <div
+            className={classes.rollChange}
+            onClick={() => handleRollDirection()}
+          >
+            {'@'}
+          </div>
         </div>
         <div>
           <div className={classes.infoTitle}>Payout</div>
@@ -89,7 +118,10 @@ const GameBox = ({ classes, rangeValue, handlerRange }) => {
 GameBox.propTypes = {
   classes: PropTypes.object,
   rangeValue: PropTypes.array,
-  handlerRange: PropTypes.func
+  handlerRange: PropTypes.func,
+  handleChangeRoll: PropTypes.func,
+  handleRollDirection: PropTypes.func,
+  rollDirectionMore: PropTypes.bool
 }
 
 export default withStyles(styles)(GameBox)

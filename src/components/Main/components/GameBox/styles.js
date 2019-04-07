@@ -112,10 +112,30 @@ export default theme => ({
     fontWeight: 900,
     background: '#5C5477',
     borderRadius: '5px',
+    textAlign: 'center',
+    border: 'none',
 
     [theme.breakpoints.down('sm')]: {
       color: '#858585',
       background: '#F0F0F0'
     }
+  },
+  infoItem: {
+    position: 'relative'
+  },
+  rollDirection: {
+    position: 'absolute',
+    color: '#fff',
+    top: '26px',
+    left: '5px',
+    fontSize: '19px'
+  },
+  rollChange: {
+    position: 'absolute',
+    color: '#fff',
+    top: '26px',
+    right: '10px',
+    fontSize: '19px',
+    cursor: 'pointer'
   }
 })
