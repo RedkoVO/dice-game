@@ -46,7 +46,7 @@ const GameBox = ({ classes, rangeValue, handlerRange }) => {
                 height: '26px',
                 width: '100%',
                 background:
-                  'linear-gradient(90deg, #C6253A 44.96%, #51CB20 56.17%)',
+                  `linear-gradient(90deg, #C6253A ${rangeValue[0].toFixed(1)}%, #51CB20 0%)`,
                 borderRadius: '10px'
               }}
             >

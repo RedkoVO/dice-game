@@ -1,4 +1,4 @@
-export default () => ({
+export default theme => ({
   wrRange: {
     position: 'relative',
     marginTop: '25px'
@@ -6,12 +6,26 @@ export default () => ({
   redCube: {
     position: 'absolute',
     top: '-74px',
-    left: '85px'
+    left: '85px',
+
+    [theme.breakpoints.down('sm')]: {
+      left: '45px'
+    },
+    [theme.breakpoints.down('xs')]: {
+      left: '34px'
+    }
   },
   greenCube: {
     position: 'absolute',
     top: '-74px',
-    right: '85px'
+    right: '85px',
+
+    [theme.breakpoints.down('sm')]: {
+      right: '45px'
+    },
+    [theme.breakpoints.down('xs')]: {
+      right: '34px'
+    }
   },
   coef: {
     position: 'absolute',
@@ -74,9 +88,14 @@ export default () => ({
     justifyContent: 'space-between',
     width: '347px',
     margin: '0 auto',
-    marginTop: '34px'
+    marginTop: '34px',
+
+    [theme.breakpoints.down('sm')]: {
+      width: '100%'
+    }
   },
   infoTitle: {
+    paddingBottom: '5px',
     color: '#858585',
     fontSize: '11px',
     fontWeight: 900,
@@ -92,6 +111,11 @@ export default () => ({
     fontSize: '20px',
     fontWeight: 900,
     background: '#5C5477',
-    borderRadius: '5px'
+    borderRadius: '5px',
+
+    [theme.breakpoints.down('sm')]: {
+      color: '#858585',
+      background: '#F0F0F0'
+    }
   }
 })

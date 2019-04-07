@@ -3,9 +3,11 @@ import PropTypes from 'prop-types'
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs'
 import withStyles from '@material-ui/core/styles/withStyles'
 
+import HistoryTab from './components/HistoryTab'
+
 import styles from './styles'
 
-const GameHistory = ({ classes }) => {
+const GameHistory = ({ classes, historyGame }) => {
   return (
     <div className={classes.root}>
       <Tabs className={classes.tabs} selectedTabClassName={classes.selectedTab}>
@@ -15,17 +17,23 @@ const GameHistory = ({ classes }) => {
           <Tab className={classes.tab}>High rollers</Tab>
         </TabList>
 
-        <TabPanel className={classes.tabPanel}>1</TabPanel>
-        <TabPanel className={classes.tabPanel}>2</TabPanel>
-        <TabPanel className={classes.tabPanel}>3</TabPanel>
+        <TabPanel className={classes.tabPanel}>
+          <HistoryTab historyGame={historyGame} />
+        </TabPanel>
+        <TabPanel className={classes.tabPanel}>
+          <HistoryTab historyGame={historyGame} />
+        </TabPanel>
+        <TabPanel className={classes.tabPanel}>
+          <HistoryTab historyGame={historyGame} />
+        </TabPanel>
       </Tabs>
-      History
     </div>
   )
 }
 
 GameHistory.propTypes = {
-  classes: PropTypes.object
+  classes: PropTypes.object,
+  historyGame: PropTypes.array
 }
 
 export default withStyles(styles)(GameHistory)

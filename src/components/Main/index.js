@@ -13,14 +13,15 @@ const Main = ({
   rangeValue,
   checked,
   handlerRange,
-  handleCheckbox
+  handleCheckbox,
+  historyGame
 }) => (
   <div className={classes.root}>
     <div className={classes.playArea}>
       <GameBox rangeValue={rangeValue} handlerRange={handlerRange} />
       <ButtonsBox checked={checked} handleCheckbox={handleCheckbox} />
     </div>
-    <GameHistory />
+    <GameHistory historyGame={historyGame} />
   </div>
 )
 
@@ -29,7 +30,8 @@ Main.propTypes = {
   rangeValue: PropTypes.array,
   handlerRange: PropTypes.func,
   checked: PropTypes.bool,
-  handleCheckbox: PropTypes.func
+  handleCheckbox: PropTypes.func,
+  historyGame: PropTypes.array
 }
 
 export default withStyles(styles)(Main)

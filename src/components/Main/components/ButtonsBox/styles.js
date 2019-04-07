@@ -1,4 +1,4 @@
-export default () => ({
+export default theme => ({
   root: {
     paddingTop: '26px'
   },
@@ -9,7 +9,11 @@ export default () => ({
     padding: '0 13px',
     height: '58px',
     background: '#403A54',
-    borderRadius: '5px'
+    borderRadius: '5px',
+
+    [theme.breakpoints.down('sm')]: {
+      marginBottom: '4px'
+    }
   },
   amount: {
     display: 'flex',
@@ -19,14 +23,25 @@ export default () => ({
     paddingRight: '10px',
     color: '#fff',
     fontSize: '18px',
-    fontWeight: 900
+    fontWeight: 900,
+
+    [theme.breakpoints.down('sm')]: {
+      fontSize: '15px'
+    },
+    [theme.breakpoints.down('xs')]: {
+      fontSize: '11px'
+    }
   },
   amountField: {
     padding: '6px',
     color: '#fff',
     background: 'rgba(103, 94, 132, 0.732988)',
     border: '1px solid rgba(255, 255, 255, 0.0419497)',
-    borderRadius: '5px'
+    borderRadius: '5px',
+
+    [theme.breakpoints.down('sm')]: {
+      padding: '4px'
+    }
   },
   auto: {
     display: 'flex',
@@ -70,7 +85,13 @@ export default () => ({
     background: '#51CB20',
     border: '14px solid #FFFFFF',
     borderRadius: '100%',
-    cursor: 'pointer'
+    cursor: 'pointer',
+
+    [theme.breakpoints.down('sm')]: {
+      width: '90px',
+      height: '90px',
+      border: '10px solid #FFFFFF'
+    }
   },
   button: {
     display: 'flex',
@@ -84,7 +105,17 @@ export default () => ({
     fontWeight: 900,
     background: '#FFC400',
     borderRadius: '5px',
-    cursor: 'pointer'
+    cursor: 'pointer',
+
+    [theme.breakpoints.down('sm')]: {
+      width: '80px',
+      height: '60px',
+      margin: '5px 0',
+      fontSize: '18px'
+    },
+    [theme.breakpoints.down('xs')]: {
+      width: '72px'
+    }
   },
   autoButtons: {
     display: 'flex',
@@ -102,13 +133,26 @@ export default () => ({
 
     '&:nth-child(1)': {
       borderBottom: '1px solid #fff'
+    },
+
+    [theme.breakpoints.down('xs')]: {
+      fontSize: '11px'
     }
   },
   autoButtonsTitle: {
     width: '80px',
     color: '#fff',
     fontSize: '18px',
-    fontWeight: 900
+    fontWeight: 900,
+
+    [theme.breakpoints.down('sm')]: {
+      width: '62px',
+      fontSize: '14px'
+    },
+    [theme.breakpoints.down('xs')]: {
+      width: '50px',
+      fontSize: '11px'
+    }
   },
   autoButtonGreen: {
     display: 'flex',
@@ -121,7 +165,17 @@ export default () => ({
     fontSize: '14px',
     fontWeight: 900,
     background: '#51CC20',
-    borderRadius: '5px'
+    borderRadius: '5px',
+
+    [theme.breakpoints.down('sm')]: {
+      margin: '0 4px',
+      width: '63px',
+      height: '25px',
+      fontSize: '9px'
+    },
+    [theme.breakpoints.down('xs')]: {
+      width: '58px',
+    }
   },
   autoButtonGray: {
     display: 'flex',
@@ -134,7 +188,17 @@ export default () => ({
     fontSize: '14px',
     fontWeight: 900,
     background: '#A5A5A5',
-    borderRadius: '5px'
+    borderRadius: '5px',
+
+    [theme.breakpoints.down('sm')]: {
+      margin: '0 4px',
+      width: '63px',
+      height: '25px',
+      fontSize: '9px'
+    },
+    [theme.breakpoints.down('xs')]: {
+      width: '58px',
+    }
   },
   autoButtonBlue: {
     display: 'flex',
@@ -146,7 +210,17 @@ export default () => ({
     fontSize: '14px',
     fontWeight: 900,
     background: 'rgba(92, 84, 119, 0.73)',
-    borderRadius: '5px'
+    borderRadius: '5px',
+
+    [theme.breakpoints.down('sm')]: {
+      margin: '0 4px',
+      width: '48px',
+      height: '25px',
+      fontSize: '9px'
+    },
+    [theme.breakpoints.down('xs')]: {
+      width: '45px',
+    }
   },
   autoRightBlock: {
     margin: '5px 0',
@@ -157,7 +231,11 @@ export default () => ({
     color: '#fff',
     fontSize: '18px',
     fontWeight: 900,
-    textAlign: 'center'
+    textAlign: 'center',
+
+    [theme.breakpoints.down('sm')]: {
+      fontSize: '14px'
+    }
   },
   rols: {
     display: 'flex',
@@ -171,7 +249,13 @@ export default () => ({
     fontWeight: 900,
     background: 'rgba(103, 94, 132, 0.732988)',
     border: '1px solid rgba(255, 255, 255, 0.0419497)',
-    borderRadius: '5px'
+    borderRadius: '5px',
+
+    [theme.breakpoints.down('sm')]: {
+      width: '45px',
+      height: '38px',
+      fontSize: '9px'
+    }
   },
   startButton: {
     display: 'flex',
@@ -181,6 +265,11 @@ export default () => ({
     color: '#fff',
     textTransform: 'uppercase',
     background: '#51CC20',
-    borderRadius: '5px'
+    borderRadius: '5px',
+
+    [theme.breakpoints.down('sm')]: {
+      height: '53px',
+      fontSize: '14px'
+    }
   }
 })

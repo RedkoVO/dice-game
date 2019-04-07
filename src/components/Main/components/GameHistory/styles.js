@@ -1,12 +1,25 @@
-export default () => ({
+export default theme => ({
   root: {
     marginLeft: '18px',
+    marginTop: '10px',
     padding: '16px 12px',
     width: '426px',
+    height: '702px',
     background: '#fff',
-    borderRadius: '5px'
+    borderRadius: '5px',
+    overflow: 'auto',
+
+    [theme.breakpoints.down('md')]: {
+      margin: '0 auto',
+      marginTop: '20px'
+    },
+    [theme.breakpoints.down('sm')]: {
+      width: '350px',
+    },
+    [theme.breakpoints.down('xs')]: {
+      width: '320px',
+    }
   },
-  tabs: {},
   tabList: {
     display: 'flex',
     padding: 0,
@@ -30,6 +43,5 @@ export default () => ({
   },
   selectedTab: {
     opacity: 1
-  },
-  tabPanel: {}
+  }
 })

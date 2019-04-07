@@ -24,3 +24,7 @@ a {
 * {
   -webkit-overflow-scrolling: touch;
 }
+
+@media screen and (max-width: 960px) {
+  body { background: #fff; }
+}
