@@ -132,10 +132,16 @@ export default theme => ({
   },
   rollChange: {
     position: 'absolute',
+    width: '20px',
+    height: '20px',
     color: '#fff',
     top: '26px',
     right: '10px',
     fontSize: '19px',
-    cursor: 'pointer'
+    cursor: 'pointer',
+
+    '& img': {
+      width: '100%'
+    }
   }
 })

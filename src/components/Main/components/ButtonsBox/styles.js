@@ -106,6 +106,14 @@ export default theme => ({
     background: '#FFC400',
     borderRadius: '5px',
     cursor: 'pointer',
+    transition: 'box-shadow 0.1s ease-out',
+
+    '&:hover': {
+      boxShadow: 'inset 0px 0px 14px 0px rgba(0,0,0, 0.2)'
+    },
+    '&:active': {
+      boxShadow: 'inset 0px 0px 14px 0px rgba(0,0,0, 0.4)'
+    },
 
     [theme.breakpoints.down('sm')]: {
       width: '80px',

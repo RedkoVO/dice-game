@@ -3,8 +3,9 @@ import PropTypes from 'prop-types'
 import { Range } from 'react-range'
 import withStyles from '@material-ui/core/styles/withStyles'
 
-// import InputField from '../../../App/components/InputField'
+import gC from '../../../../constants'
 
+import UpdateIcon from '../../../../assets/images/update.png'
 import RedCube from './svg/redCube'
 import GreenCube from './svg/greenCube'
 
@@ -16,7 +17,8 @@ const GameBox = ({
   handlerRange,
   handleChangeRoll,
   handleRollDirection,
-  rollDirectionMore
+  rollDirectionMore,
+  winChance
 }) => {
   return (
     <div className={classes.root}>
@@ -43,8 +45,8 @@ const GameBox = ({
 
         <Range
           step={0.1}
-          min={0.1}
-          max={100}
+          min={gC.game.minValue}
+          max={gC.game.maxValue}
           values={rangeValue}
           onChange={val => handlerRange(val)}
           renderTrack={({ props, children }) => (
@@ -88,8 +90,8 @@ const GameBox = ({
             id="roll"
             name="roll"
             type="number"
-            min="0.1"
-            max="100"
+            min={gC.game.minValue}
+            max={gC.game.maxValue}
             step="0.1"
             className={classes.infoField}
             value={`${rangeValue[0]}`}
@@ -99,7 +101,7 @@ const GameBox = ({
             className={classes.rollChange}
             onClick={() => handleRollDirection()}
           >
-            {'@'}
+            <img src={UpdateIcon} alt="" />
           </div>
         </div>
         <div>
@@ -108,7 +110,7 @@ const GameBox = ({
         </div>
         <div>
           <div className={classes.infoTitle}>Win chance</div>
-          <div className={classes.infoField}>{'55%'}</div>
+          <div className={classes.infoField}>{winChance}</div>
         </div>
       </div>
     </div>
@@ -121,7 +123,8 @@ GameBox.propTypes = {
   handlerRange: PropTypes.func,
   handleChangeRoll: PropTypes.func,
   handleRollDirection: PropTypes.func,
-  rollDirectionMore: PropTypes.bool
+  rollDirectionMore: PropTypes.bool,
+  winChance: PropTypes.number
 }
 
 export default withStyles(styles)(GameBox)

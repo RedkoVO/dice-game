@@ -10,7 +10,8 @@ const ButtonsBox = ({
   checked,
   handleCheckbox,
   handleChangeAmount,
-  fieldsState
+  fieldsState,
+  handleButton
 }) => (
   <div className={classes.root}>
     <div className={classes.header}>
@@ -72,14 +73,30 @@ const ButtonsBox = ({
     ) : (
       <div className={classes.buttons}>
         <div className={classes.circleButton}>ROLL</div>
-        <div className={classes.button}>Min</div>
-        <div className={classes.button}>-</div>
-        <div className={classes.button}>+</div>
-        <div className={classes.button}>Max</div>
-        <div className={classes.button}>1/10</div>
-        <div className={classes.button}>1/2</div>
-        <div className={classes.button}>X2</div>
-        <div className={classes.button}>X10</div>
+        <div className={classes.button} onClick={() => handleButton('min')}>
+          Min
+        </div>
+        <div className={classes.button} onClick={() => handleButton('minus')}>
+          -
+        </div>
+        <div className={classes.button} onClick={() => handleButton('plus')}>
+          +
+        </div>
+        <div className={classes.button} onClick={() => handleButton('max')}>
+          Max
+        </div>
+        <div className={classes.button} onClick={() => handleButton('1/10')}>
+          1/10
+        </div>
+        <div className={classes.button} onClick={() => handleButton('1/2')}>
+          1/2
+        </div>
+        <div className={classes.button} onClick={() => handleButton('x2')}>
+          X2
+        </div>
+        <div className={classes.button} onClick={() => handleButton('x10')}>
+          X10
+        </div>
       </div>
     )}
   </div>
@@ -90,6 +107,7 @@ ButtonsBox.propTypes = {
   checked: PropTypes.bool,
   handleCheckbox: PropTypes.func,
   handleChangeAmount: PropTypes.func,
+  handleButton: PropTypes.func,
   fieldsState: PropTypes.object
 }
 

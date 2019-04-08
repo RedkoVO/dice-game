@@ -18,12 +18,14 @@ const Main = ({
   handleChangeRoll,
   handleChangeAmount,
   handleRollDirection,
-  rollDirectionMore
+  rollDirectionMore,
+  handleButton
 }) => (
   <div className={classes.root}>
     <div className={classes.playArea}>
       <GameBox
         rangeValue={fieldsState.range}
+        winChance={fieldsState.winChance}
         handlerRange={handlerRange}
         handleChangeRoll={handleChangeRoll}
         handleRollDirection={handleRollDirection}
@@ -34,6 +36,7 @@ const Main = ({
         fieldsState={fieldsState}
         handleCheckbox={handleCheckbox}
         handleChangeAmount={handleChangeAmount}
+        handleButton={handleButton}
       />
     </div>
     <GameHistory historyGame={historyGame} />
@@ -50,7 +53,8 @@ Main.propTypes = {
   historyGame: PropTypes.array,
   handleChangeRoll: PropTypes.func,
   handleChangeAmount: PropTypes.func,
-  handleRollDirection: PropTypes.func
+  handleRollDirection: PropTypes.func,
+  handleButton: PropTypes.func
 }
 
 export default withStyles(styles)(Main)
