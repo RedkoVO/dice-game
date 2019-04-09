@@ -26,6 +26,7 @@ const Main = ({
       <GameBox
         rangeValue={fieldsState.range}
         winChance={fieldsState.winChance}
+        payout={fieldsState.payout}
         handlerRange={handlerRange}
         handleChangeRoll={handleChangeRoll}
         handleRollDirection={handleRollDirection}

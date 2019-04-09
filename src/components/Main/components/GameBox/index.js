@@ -1,6 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { Range } from 'react-range'
+import Slider from 'react-rangeslider'
+
 import withStyles from '@material-ui/core/styles/withStyles'
 
 import gC from '../../../../constants'
@@ -9,6 +10,7 @@ import UpdateIcon from '../../../../assets/images/update.png'
 import RedCube from './svg/redCube'
 import GreenCube from './svg/greenCube'
 
+import './range.css'
 import styles from './styles'
 
 const GameBox = ({
@@ -18,7 +20,8 @@ const GameBox = ({
   handleChangeRoll,
   handleRollDirection,
   rollDirectionMore,
-  winChance
+  winChance,
+  payout
 }) => {
   return (
     <div className={classes.root}>
@@ -43,40 +46,13 @@ const GameBox = ({
           <GreenCube />
         </div>
 
-        <Range
+        <Slider
           step={0.1}
           min={gC.game.minValue}
           max={gC.game.maxValue}
-          values={rangeValue}
+          value={rangeValue}
+          tooltip={false}
           onChange={val => handlerRange(val)}
-          renderTrack={({ props, children }) => (
-            <div
-              {...props}
-              style={{
-                ...props.style,
-                height: '26px',
-                width: '100%',
-                background: `linear-gradient(90deg, #C6253A ${rangeValue[0].toFixed(
-                  1
-                )}%, #51CB20 0%)`,
-                borderRadius: '10px'
-              }}
-            >
-              {children}
-            </div>
-          )}
-          renderThumb={({ props }) => (
-            <div
-              {...props}
-              style={{
-                ...props.style,
-                height: '45px',
-                width: '45px',
-                backgroundColor: '#FFC400',
-                borderRadius: '100%'
-              }}
-            />
-          )}
         />
       </div>
 
@@ -94,7 +70,7 @@ const GameBox = ({
             max={gC.game.maxValue}
             step="0.1"
             className={classes.infoField}
-            value={`${rangeValue[0]}`}
+            value={`${rangeValue}`}
             onChange={e => handleChangeRoll(e)}
           />
           <div
@@ -106,7 +82,7 @@ const GameBox = ({
         </div>
         <div>
           <div className={classes.infoTitle}>Payout</div>
-          <div className={classes.infoField}>{'x1.78'}</div>
+          <div className={classes.infoField}>x{payout}</div>
         </div>
         <div>
           <div className={classes.infoTitle}>Win chance</div>
@@ -119,12 +95,13 @@ const GameBox = ({
 
 GameBox.propTypes = {
   classes: PropTypes.object,
-  rangeValue: PropTypes.array,
+  rangeValue: PropTypes.number,
   handlerRange: PropTypes.func,
   handleChangeRoll: PropTypes.func,
   handleRollDirection: PropTypes.func,
   rollDirectionMore: PropTypes.bool,
-  winChance: PropTypes.number
+  winChance: PropTypes.number,
+  payout: PropTypes.number
 }
 
 export default withStyles(styles)(GameBox)

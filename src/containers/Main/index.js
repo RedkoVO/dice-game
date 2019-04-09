@@ -117,9 +117,33 @@ export default compose(
   withState('checked', 'setCheckbox', false),
   withState('rollDirectionMore', 'setRollDirection', false),
   withState('fieldsState', 'setField', {
-    range: [50],
+    range: 50,
     amount: 0.001,
-    winChance: 50
+    winChance: 50,
+    payout: 1.8
+  }),
+  withHandlers({
+    setPayout: ({ rollDirectionMore, fieldsState, setField }) => () => {
+      let fields = Object.assign({}, fieldsState)
+
+      if (rollDirectionMore) {
+        const num = fields.range
+        const coef = (100 - num) / 100
+        const winMult = (1 / coef) * (1 - 0.1)
+        fields.payout = winMult
+
+        // console.log('> winMult', winMult)
+        setField(fields)
+      } else {
+        const num = fields.range
+        const coef = num / 100
+        const winMult = (1 / coef) * (1 - 0.1)
+        fields.payout = winMult
+
+        // console.log('< winMult', winMult)
+        setField(fields)
+      }
+    }
   }),
   withHandlers({
     handleCheckbox: ({ setCheckbox, checked }) => () => {
@@ -138,34 +162,53 @@ export default compose(
       setRollDirection
     }) => () => {
       let fields = Object.assign({}, fieldsState)
-      const roll = gC.game.maxValue - fields.range[0]
-      fields.range = [parseFloat(parseFloat(roll).toFixed(1))]
+      const roll = gC.game.maxValue - fields.range
+      fields.range = parseFloat(parseFloat(roll).toFixed(1))
       fields.winChance = !rollDirectionMore
-        ? parseFloat(parseFloat(gC.game.maxValue - fields.range[0]).toFixed(1))
+        ? parseFloat(parseFloat(gC.game.maxValue - fields.range).toFixed(1))
         : parseFloat(parseFloat(roll).toFixed(1))
 
       setField(fields)
       setRollDirection(!rollDirectionMore)
     },
 
-    handlerRange: ({ fieldsState, setField, rollDirectionMore }) => val => {
+    handlerRange: ({ fieldsState, setField, rollDirectionMore, setPayout }) => val => {
       let fields = Object.assign({}, fieldsState)
-      fields.range = val
+      fields.range = parseFloat(parseFloat(val).toFixed(1))
       fields.winChance = rollDirectionMore
-        ? parseFloat(parseFloat(gC.game.maxValue - fields.range[0]).toFixed(1))
+        ? parseFloat(parseFloat(gC.game.maxValue - fields.range).toFixed(1))
         : parseFloat(parseFloat(val).toFixed(1))
 
+        if (rollDirectionMore) {
+          const num = fields.range
+          const coef = (100 - num) / 100
+          const winMult = (1 / coef) * (1 - 0.1)
+          fields.payout = winMult
+  
+          // setField(fields)
+        } else {
+          const num = fields.range
+          const coef = num / 100
+          const winMult = (1 / coef) * (1 - 0.1)
+          fields.payout = parseFloat(parseFloat(winMult).toFixed(2))
+  
+          // setField(fields)
+        }
+      // setPayout()
       setField(fields)
     },
     handleChangeRoll: ({ setField, fieldsState, rollDirectionMore }) => e => {
       const val = e.target.value
       let fields = Object.assign({}, fieldsState)
-      fields.range = [parseFloat(parseFloat(val).toFixed(1))]
+      fields.range = parseFloat(parseFloat(val).toFixed(1))
       fields.winChance = rollDirectionMore
-        ? parseFloat(parseFloat(gC.game.maxValue - fields.range[0]).toFixed(1))
+        ? parseFloat(parseFloat(gC.game.maxValue - fields.range).toFixed(1))
         : parseFloat(parseFloat(val).toFixed(1))
 
-      if (parseFloat(val) >= gC.game.minValue && parseFloat(val) < gC.game.maxValue) {
+      if (
+        parseFloat(val) >= gC.game.minValue &&
+        parseFloat(val) < gC.game.maxValue
+      ) {
         setField(fields)
       } else {
         return false
@@ -176,53 +219,53 @@ export default compose(
 
       switch (val) {
         case 'min':
-          fields.range = [gC.game.minValue]
+          fields.range = gC.game.minValue
           break
         case 'minus':
-          if (fields.range[0] > gC.game.minValue) {
-            fields.range = [
-              parseFloat(parseFloat(fieldsState.range[0] - 0.1).toFixed(1))
-            ]
+          if (fields.range > gC.game.minValue) {
+            fields.range = parseFloat(
+              parseFloat(fieldsState.range - 0.1).toFixed(1)
+            )
           } else {
             return false
           }
           break
         case 'plus':
-          if (fields.range[0] < gC.game.maxValue) {
-            fields.range = [
-              parseFloat(parseFloat(fieldsState.range[0] + 0.1).toFixed(1))
-            ]
+          if (fields.range < gC.game.maxValue) {
+            fields.range = parseFloat(
+              parseFloat(fieldsState.range + 0.1).toFixed(1)
+            )
           } else {
             return false
           }
           break
         case 'max':
-          fields.range = [100]
+          fields.range = gC.game.maxValue
           break
         case '1/10':
-          fields.range = [
-            parseFloat(parseFloat(fieldsState.range[0] / 10).toFixed(1))
-          ]
+          fields.range = parseFloat(
+            parseFloat(fieldsState.range / 10).toFixed(1)
+          )
           break
         case '1/2':
-          fields.range = [
-            parseFloat(parseFloat(fieldsState.range[0] / 2).toFixed(1))
-          ]
+          fields.range = parseFloat(
+            parseFloat(fieldsState.range / 2).toFixed(1)
+          )
           break
         case 'x2':
-          if (fields.range[0] * 2 <= gC.game.maxValue) {
-            fields.range = [
-              parseFloat(parseFloat(fieldsState.range[0] * 2).toFixed(1))
-            ]
+          if (fields.range * 2 <= gC.game.maxValue) {
+            fields.range = parseFloat(
+              parseFloat(fieldsState.range * 2).toFixed(1)
+            )
           } else {
             return false
           }
           break
         case 'x10':
-          if (fields.range[0] * 10 < gC.game.maxValue) {
-            fields.range = [
-              parseFloat(parseFloat(fieldsState.range[0] * 10).toFixed(1))
-            ]
+          if (fields.range * 10 < gC.game.maxValue) {
+            fields.range = parseFloat(
+              parseFloat(fieldsState.range[0] * 10).toFixed(1)
+            )
           } else {
             return false
           }

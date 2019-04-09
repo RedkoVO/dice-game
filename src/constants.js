@@ -8,7 +8,9 @@ export default {
     XS: 0
   },
   game: {
-    maxValue: 100,
-    minValue: 0
+    maxValue: 90,
+    minValue: 10,
+    leftHousedge: 10,
+    rightHousedge: 90
   }
 }

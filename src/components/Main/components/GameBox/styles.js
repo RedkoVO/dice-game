@@ -73,16 +73,6 @@ export default theme => ({
     textAlign: 'center',
     color: '#38BB03'
   },
-  rangeLine: {
-    height: '6px',
-    width: '100%',
-    backgroundColor: '#ccc'
-  },
-  rangeThumb: {
-    height: '42px',
-    width: '42px',
-    backgroundColor: '#999'
-  },
   info: {
     display: 'flex',
     justifyContent: 'space-between',
