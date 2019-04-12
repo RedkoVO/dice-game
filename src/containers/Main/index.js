@@ -184,15 +184,11 @@ export default compose(
           const coef = (100 - num) / 100
           const winMult = (1 / coef) * (1 - 0.1)
           fields.payout = winMult
-  
-          // setField(fields)
         } else {
           const num = fields.range
           const coef = num / 100
           const winMult = (1 / coef) * (1 - 0.1)
           fields.payout = parseFloat(parseFloat(winMult).toFixed(2))
-  
-          // setField(fields)
         }
       // setPayout()
       setField(fields)
