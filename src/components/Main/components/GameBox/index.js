@@ -15,6 +15,7 @@ import styles from './styles'
 
 const GameBox = ({
   classes,
+  game,
   rangeValue,
   handlerRange,
   handleChangeRoll,
@@ -36,15 +37,19 @@ const GameBox = ({
       </div>
 
       <div className={classes.wrRange}>
-        <div className={classes.redCube}>
-          <div className={classes.coef}>39.22</div>
-          <RedCube />
-        </div>
+        {game.rollResult <= 50 && (
+          <div className={classes.redCube}>
+            <div className={classes.coef}>{game.rollResult}39.22</div>
+            <RedCube />
+          </div>
+        )}
 
-        <div className={classes.greenCube}>
-          <div className={classes.coef}>88.17</div>
-          <GreenCube />
-        </div>
+        {game.rollResult > 50 && (
+          <div className={classes.greenCube}>
+            <div className={classes.coef}>{game.rollResult}88.17</div>
+            <GreenCube />
+          </div>
+        )}
 
         <Slider
           step={0.1}
@@ -95,6 +100,7 @@ const GameBox = ({
 
 GameBox.propTypes = {
   classes: PropTypes.object,
+  game: PropTypes.object,
   rangeValue: PropTypes.number,
   handlerRange: PropTypes.func,
   handleChangeRoll: PropTypes.func,

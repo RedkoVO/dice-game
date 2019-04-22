@@ -1,5 +1,5 @@
 export default {
-  API_URL: 'https://.....com',
+  API_URL: 'https://integration.diceybit.com/games/classic_dice/',
   BRECKPOINT: {
     XL: 1280,
     LG: 960,

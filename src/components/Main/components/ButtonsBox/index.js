@@ -1,6 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import Switch from '@material-ui/core/Switch'
+import cn from 'classnames'
 import withStyles from '@material-ui/core/styles/withStyles'
 
 import styles from './styles'
@@ -8,10 +9,12 @@ import styles from './styles'
 const ButtonsBox = ({
   classes,
   checked,
+  isProcessing,
   handleCheckbox,
   handleChangeAmount,
   fieldsState,
-  handleButton
+  handleButton,
+  handleRollButton
 }) => (
   <div className={classes.root}>
     <div className={classes.header}>
@@ -22,6 +25,7 @@ const ButtonsBox = ({
           name="roll"
           type="number"
           min="0.1"
+          step="0.1"
           className={classes.amountField}
           value={fieldsState.amount}
           onChange={e => handleChangeAmount(e)}
@@ -68,11 +72,18 @@ const ButtonsBox = ({
           </div>
         </div>
 
-        <div className={classes.startButton}>Start auto</div>
+        <div className={cn(classes.startButton, { procssing: isProcessing })}>
+          {isProcessing ? 'Processing' : 'Start auto'}
+        </div>
       </React.Fragment>
     ) : (
       <div className={classes.buttons}>
-        <div className={classes.circleButton}>ROLL</div>
+        <div
+          className={cn(classes.circleButton, { procssing: isProcessing })}
+          onClick={() => handleRollButton()}
+        >
+          {isProcessing ? 'Processing' : 'ROLL'}
+        </div>
         <div className={classes.button} onClick={() => handleButton('min')}>
           Min
         </div>
@@ -105,9 +116,11 @@ const ButtonsBox = ({
 ButtonsBox.propTypes = {
   classes: PropTypes.object,
   checked: PropTypes.bool,
+  isProcessing: PropTypes.bool,
   handleCheckbox: PropTypes.func,
   handleChangeAmount: PropTypes.func,
   handleButton: PropTypes.func,
+  handleRollButton: PropTypes.func,
   fieldsState: PropTypes.object
 }
 

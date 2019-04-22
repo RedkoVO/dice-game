@@ -1,7 +1,10 @@
 import compose from 'recompose/compose'
 import { pure, withHandlers, withState, withProps } from 'recompose'
+import { connect } from 'react-redux'
 
 import gC from '../../constants'
+
+import { startGame } from '../../redux/actions/game'
 
 import Main from '../../components/Main'
 
@@ -113,9 +116,15 @@ const mockHistory = [
   }
 ]
 
+const mapStateToProps = state => ({
+  game: state.game.game
+})
+
 export default compose(
+  connect(mapStateToProps),
   withState('checked', 'setCheckbox', false),
   withState('rollDirectionMore', 'setRollDirection', false),
+  withState('isProcessing', 'setProcessing', false),
   withState('fieldsState', 'setField', {
     range: 50,
     amount: 0.001,
@@ -123,28 +132,34 @@ export default compose(
     payout: 1.8
   }),
   withHandlers({
-    setPayout: ({ rollDirectionMore, fieldsState, setField }) => () => {
-      let fields = Object.assign({}, fieldsState)
-
+    getPayout: ({ rollDirectionMore, fieldsState }) => () => {
+      // "<" - false (type 2), ">" - true (type 1)
       if (rollDirectionMore) {
-        const num = fields.range
+        const num = fieldsState.range
         const coef = (100 - num) / 100
         const winMult = (1 / coef) * (1 - 0.1)
-        fields.payout = winMult
 
-        // console.log('> winMult', winMult)
-        setField(fields)
+        return parseFloat(parseFloat(winMult).toFixed(2))
       } else {
-        const num = fields.range
+        const num = fieldsState.range
         const coef = num / 100
         const winMult = (1 / coef) * (1 - 0.1)
-        fields.payout = winMult
 
-        // console.log('< winMult', winMult)
-        setField(fields)
+        return parseFloat(parseFloat(winMult).toFixed(2))
       }
+    },
+
+    getWinChance: ({ rollDirectionMore, fieldsState }) => val => {
+      const winChance = !rollDirectionMore
+        ? parseFloat(
+            parseFloat(gC.game.maxValue - fieldsState.range).toFixed(1)
+          )
+        : parseFloat(parseFloat(val).toFixed(1))
+
+      return winChance
     }
   }),
+
   withHandlers({
     handleCheckbox: ({ setCheckbox, checked }) => () => {
       setCheckbox(!checked)
@@ -159,47 +174,42 @@ export default compose(
       fieldsState,
       setField,
       rollDirectionMore,
-      setRollDirection
+      setRollDirection,
+      getWinChance
     }) => () => {
       let fields = Object.assign({}, fieldsState)
       const roll = gC.game.maxValue - fields.range
       fields.range = parseFloat(parseFloat(roll).toFixed(1))
-      fields.winChance = !rollDirectionMore
-        ? parseFloat(parseFloat(gC.game.maxValue - fields.range).toFixed(1))
-        : parseFloat(parseFloat(roll).toFixed(1))
+      fields.winChance = getWinChance(roll)
 
       setField(fields)
       setRollDirection(!rollDirectionMore)
     },
 
-    handlerRange: ({ fieldsState, setField, rollDirectionMore, setPayout }) => val => {
+    handlerRange: ({
+      fieldsState,
+      setField,
+      getPayout,
+      getWinChance
+    }) => val => {
       let fields = Object.assign({}, fieldsState)
       fields.range = parseFloat(parseFloat(val).toFixed(1))
-      fields.winChance = rollDirectionMore
-        ? parseFloat(parseFloat(gC.game.maxValue - fields.range).toFixed(1))
-        : parseFloat(parseFloat(val).toFixed(1))
+      fields.winChance = getWinChance(val)
+      fields.payout = getPayout()
 
-        if (rollDirectionMore) {
-          const num = fields.range
-          const coef = (100 - num) / 100
-          const winMult = (1 / coef) * (1 - 0.1)
-          fields.payout = winMult
-        } else {
-          const num = fields.range
-          const coef = num / 100
-          const winMult = (1 / coef) * (1 - 0.1)
-          fields.payout = parseFloat(parseFloat(winMult).toFixed(2))
-        }
-      // setPayout()
       setField(fields)
     },
-    handleChangeRoll: ({ setField, fieldsState, rollDirectionMore }) => e => {
+    handleChangeRoll: ({
+      setField,
+      fieldsState,
+      getPayout,
+      getWinChance
+    }) => e => {
       const val = e.target.value
       let fields = Object.assign({}, fieldsState)
       fields.range = parseFloat(parseFloat(val).toFixed(1))
-      fields.winChance = rollDirectionMore
-        ? parseFloat(parseFloat(gC.game.maxValue - fields.range).toFixed(1))
-        : parseFloat(parseFloat(val).toFixed(1))
+      fields.payout = getPayout()
+      fields.winChance = getWinChance(val)
 
       if (
         parseFloat(val) >= gC.game.minValue &&
@@ -210,7 +220,7 @@ export default compose(
         return false
       }
     },
-    handleButton: ({ setField, fieldsState }) => val => {
+    handleButton: ({ setField, fieldsState, getPayout }) => val => {
       let fields = Object.assign({}, fieldsState)
 
       switch (val) {
@@ -270,7 +280,36 @@ export default compose(
           return false
       }
 
+      fields.payout = getPayout()
       setField(fields)
+    },
+
+    handleRollButton: ({
+      dispatch,
+      fieldsState,
+      rollDirectionMore,
+      setProcessing
+    }) => () => {
+      const data = {
+        id: 'bet',
+        client_seed: 'iVly31pru4iAPilJTWyYkn5ey5srJXB6',
+        amount: fieldsState.amount,
+        type: rollDirectionMore ? 1 : 2,
+        number: fieldsState.range * 100
+      }
+
+      console.log('rollDirectionMore', rollDirectionMore)
+
+      dispatch(startGame(data))
+        .then(res => {
+          setProcessing(true)
+          if (res && res.success) {
+            setProcessing(false)
+          }
+        })
+        .catch(err => {
+          console.log('Error processing:', err)
+        })
     }
   }),
   withProps(() => ({ historyGame: mockHistory })),

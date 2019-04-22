@@ -91,6 +91,11 @@ export default theme => ({
       width: '90px',
       height: '90px',
       border: '10px solid #FFFFFF'
+    },
+
+    '&.procssing': {
+      fontSize: '16px',
+      background: '#c1c1c1'
     }
   },
   button: {
@@ -182,7 +187,7 @@ export default theme => ({
       fontSize: '9px'
     },
     [theme.breakpoints.down('xs')]: {
-      width: '58px',
+      width: '58px'
     }
   },
   autoButtonGray: {
@@ -205,7 +210,7 @@ export default theme => ({
       fontSize: '9px'
     },
     [theme.breakpoints.down('xs')]: {
-      width: '58px',
+      width: '58px'
     }
   },
   autoButtonBlue: {
@@ -227,7 +232,7 @@ export default theme => ({
       fontSize: '9px'
     },
     [theme.breakpoints.down('xs')]: {
-      width: '45px',
+      width: '45px'
     }
   },
   autoRightBlock: {
@@ -278,6 +283,11 @@ export default theme => ({
     [theme.breakpoints.down('sm')]: {
       height: '53px',
       fontSize: '14px'
+    },
+
+    '&.procssing': {
+      fontSize: '16px',
+      background: '#c1c1c1'
     }
   }
 })
