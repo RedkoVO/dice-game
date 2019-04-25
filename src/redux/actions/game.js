@@ -5,17 +5,14 @@ import gC from '../../constants'
 
 /* START GAME */
 export const startGame = data => async dispatch => {
-  const token = localStorage.getItem('token')
-
   try {
     const res = await axios({
       method: 'get',
       headers: {
         Accept: 'application/json',
-        'Content-Type': 'application/x-www-form-urlencoded',
-        token: token ? token : ''
+        'Content-Type': 'application/x-www-form-urlencoded'
       },
-      url: `${gC.API_URL}?req=${JSON.stringify(data)}`
+      url: `${gC.API_URL}?req=${JSON.stringify(data)}&sid=test`
     })
     dispatch(createStartGameSuccess(res.data))
     return res.data

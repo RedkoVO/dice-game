@@ -298,8 +298,6 @@ export default compose(
         number: fieldsState.range * 100
       }
 
-      console.log('rollDirectionMore', rollDirectionMore)
-
       dispatch(startGame(data))
         .then(res => {
           setProcessing(true)
